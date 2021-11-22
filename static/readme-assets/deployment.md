@@ -94,7 +94,7 @@ At this point, the basic functionality of the site as a guest user is complete. 
 If you choose to deploy the site to [Heroku](https://www.heroku.com/) following the procedure below, steps are listed which will instruct you on how to enable emails to be sent from a live Gmail account.
 
 
-[⇧ Back to Top](#table-of-contents)
+[⇧ Back to Top](#deployment)
 
 <hr>
 
@@ -150,7 +150,7 @@ We have to do this because since our *.env* file has not been made public or pus
 
 Once the app is deployed, click "Open App" in Heroku on the project page. The project should be successfully deployed and will update automatically whenever a new GitHub push is made.
 
-[⇧ Back to Top](#table-of-contents)
+[⇧ Back to Top](#deployment)
 
 <hr>
 
@@ -219,4 +219,4 @@ Congratulations - your *Heroku*-deployed *Django* project is now live, and conne
 
 <hr>
 
-[⇧ Back to Top](#table-of-contents)
+[⇧ Back to Top](#deployment)
