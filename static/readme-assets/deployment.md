@@ -199,3 +199,18 @@ Copy your *ARN* from the *Permissions* tab, and paste it into the *ARN* field in
 10. Click *Download .csv*.
 
 ### Connecting Django to S3
+
+1. In your Gitpod workspace, navigate to *settings.py*. Update the settings here with your chosen AWS_STORAGE_BUCKET_NAME and AWS_S3_REGION_NAME.
+
+2. In your Heroku project, add your ```AWS_ACCESS_KEY_ID``` and ```AWS_SECRET_ACCESS_KEY``` to your *Config Vars* in *Settings*. You can find these in the *credentials.csv* file we just downloaded.    
+Also, add ```USE_AWS``` as a KEY, with its value as ```"True"```.   
+Next to the ```DISABLE_COLLECTSTATIC``` variable, click the *X* to delete it, as we will now want Django to collect the static files to upload to S3.
+
+3. Since we have updated our *settings.py*, we need to push our changes to GitHub. Run the following commands in order: 
+```git add .``` 
+```git commit -m "heroku deployment"``` 
+```git push heroku master```  
+
+4. Heroku should detect this *push*, and will now collect static files.
+
+5. Return to your *S3* bucket, and on the *Overview* tab, created a new folder called "*media*". 
