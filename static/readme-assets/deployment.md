@@ -2,6 +2,7 @@
 
 * [Local GitPod Deployment](#local-gitpod-deployment)
 * [Heroku Deployment](#heroku-deployment)
+* [Amazon Web Services S3](#amazon-web-services-s3)
 
 # Deployment
 
@@ -149,5 +150,52 @@ We have to do this because since our *.env* file has not been made public or pus
 
 Once the app is deployed, click "Open App" in Heroku on the project page. The project should be successfully deployed and will update automatically whenever a new GitHub push is made.
 
+[⇧ Back to Top](#table-of-contents)
 
+<hr>
 
+## Amazon Web Services S3
+
+### Creating our S3 bucket, adding policies and user. 
+
+This process requires an [Amazon Web Services](https://portal.aws.amazon.com/billing/signup?) account.
+
+1. Sign in and navigate to your [Console](https://aws.amazon.com/console/). Search for "S3" and open it. Click "Create Bucket", and name it something similar to your Heroku app name. Uncheck "Block all public access", and click *Acknowledge* to acknowledge that the bucket will be public.
+
+2. In the *Properties* tab of your new bucket, enable *Static website hosting*. Input "index.html" and "error.html" as your Index and Error object (these values will not be used in our project).
+
+3. On the *Permissions* tab, in the "CORS configuration", paste the following code:
+    >    [
+  {
+      "AllowedHeaders": [
+          "Authorization"
+      ],
+      "AllowedMethods": [
+          "GET"
+      ],
+      "AllowedOrigins": [
+          "*"
+      ],
+      "ExposeHeaders": []
+  }
+]   
+and click *Save*. 
+In the *Bucket Policy* tab, select *Policy generator*. Select *S3 Bucket Policy*. In the *Principal* field, type "*". Select the "*GetObject*" action.
+
+Copy your *ARN* from the *Permissions* tab, and paste it into the *ARN* field in the policy generator. Click *Add Statement*, then *Generate Policy*. Copy the policy into the *Bucket Policy* editor in the *Permissions* tab.
+
+4. Go to the *Access Control List* tab, and set *Public Access* to "*everyone*".
+
+5. Open the *Services* menu in AWS, and search for *IAM*. Click *Groups* and create a new group, named "*Manage project*" or similar. Click *Next Step*, *Next Step* again, and finally *Create Group*.
+
+6. Navigate to *Policies*, and *Create Policy*.
+
+7. Navigate to the JSON tab, and click *Import managed policy*. Search for "*S3*", and select "*S3 full access policy*". 
+
+8. Click *Review Policy*. Give it a name and description of your choice, and click *Create Policy*. Go to *Groups*, click your newly created group. Click *Attach Policy* and search for the newly created *Policy*. Select it, and click *Attach Policy*.
+
+9. On the *Users* page, click *Add User*. Give the user a name of your choice, select *Programmatic Access*, and click *Next*. Continue through the following steps without changing anything, and click *Create User*.
+
+10. Click *Download .csv*.
+
+### Connecting Django to S3
