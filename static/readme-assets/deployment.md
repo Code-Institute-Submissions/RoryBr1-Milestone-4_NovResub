@@ -1,5 +1,8 @@
 <a href="https://github.com/RoryBr1/Milestone-4#design">Back to ReadMe</a>
 
+* [Local GitPod Deployment](#local-gitpod-deployment)
+* [Heroku Deployment](#heroku-deployment)
+
 # Deployment
 
 ## Local GitPod Deployment
@@ -10,9 +13,12 @@ The following steps will allow you to deploy the project 'locally' in the cloud-
 <hr>
 
 **Step One: Creating a Gitpod workspace and installing requirements**
-1. [Login to Gitpod](https://gitpod.io/login) using your GitHub account. (If a GitHub pop-up window asks you to authorize Gitpod, click Authorize).
+1. [Login to Gitpod](https://gitpod.io/login) using your GitHub account. (If a GitHub pop-up window asks you to authorize Gitpod, click Authorize).l
 
-2. Navigate to [this link](https://gitpod.io/#https://github.com/RoryBr1/Milestone-4) in your browser to open the repository in a new Gitpod workspace.
+2. Navigate to the project's [GitHub repository](https://github.com/RoryBr1/Milestone-4) in your browser, and click "Fork" in the top right hand corner of the page. Navigate to your repositories page, and click on "Milestone 4" which has just been created. Copy the address of this page from your URL bar.
+Replace ```[your_url_here]``` in the address below with the URL you have just copied.
+```gitpod.io/#[your_url_here]```
+This will open your new, forked repository in Gitpod.
 
 3. Install all required packages in your Gitpod workspace, by typing 
    ``` pip3 install -r requirements.txt ```
@@ -91,24 +97,57 @@ If you choose to deploy the site to [Heroku](https://www.heroku.com/) following 
 
 <hr>
 
-## GitHub Push, Heroku (Web) Deployment
+## Heroku Deployment
+
+[Reccomended Reading: What is Heroku?](https://www.heroku.com/what)
 
 This procedure requires that you have successfully [configured your project in a Gitpod workspace](local-gitpod-deployment) as directed.
 
-You will also need a [Heroku](https://signup.heroku.com/) account.
+You will need a [Heroku](https://signup.heroku.com/) account.
 
 > Important
 > If you get ``` FATAL: role "somerandomletters" does not exist ``` error, run ``` unset PGHOSTADDR ``` in the terminal. This should allow you to continue.
 
 
-2. In the terminal, type ``` python3 app.py > Procfile ``` . This will create a _Procfile_, which tells Heroku which file to run when the site is accessed.
+1. In your Gitpod terminal, type ``` python3 app.py > Procfile ``` . This will create a _Procfile_, which will tell Heroku how to run our project.
+Your Procfile should read ```web: gunicorn techzone.wsgi:application```. 
 
-3. In the _Deploy_ tab on Heroku, click "Connect to GitHub" and select the relevant repository. Click "Connect".
+2. Login to [Heroku](https://signup.heroku.com/). Accept any terms and conditions which may be prompted, and navigate to [Create New app](https://dashboard.heroku.com/new-app). Give your app a name of your choice, and click "Create app".   
+In the "*Resources*" tab, search for "heroku postgres". Choose the "hobby Dev - Free" option, and click "Submit Order form".
 
-4. Go to the _Settings_ page in Heroku and click on "Config Vars". Click on "Reveal Config Vars".
+3. Back in GitPod, navigate to *techzone/settings.py*. We will need to setup our project to use this new Postgres database. Delete lines 129 to 141, and replace with the following code:   
+    >   DATABASES = {
+        'default': dj_database_url.parse('[your-postgres-address]', 'localhost')
+        } 
+You will need to replace [your-postgres-address] with the DATABASE_URL which you can find in the *Settings* tab of your Heroku project, under *Config Variables*.
 
-    - Enter the _IP, SECRET_KEY, MONGO_URI,_ and _MONGO_DBNAME_ as contained in your _env.py_ file.
+4. Return to Gitpod, and in the terminal, run ```python3 manage.py makemigrations```, followed by ```python3 manage.py migrate```. This will migrate your current database to the new Postgres one. 
+Then, run each of these commands in order:  
+``` python3 manage.py dumpdata --exclude auth.permission --exclude contenttypes > db.json ```   
+``` python3 manage.py loaddata db.json ```  
 
-5. Go to the _Deploy_ tab in Heroku, scroll down and click "Enable Automatic Deploys". Click "Deploy Branch".
+Finally, run ```python3 manage.py createsuperuser``` and follow the steps to create a new admin user.
 
-Once the app is deployed, click "Open App" in Heroku on the project page. The project should be successfully deployed and will update automatically when new GitHub commits are made.
+5. In your Gitpod terminal, run the following command   
+```heroku config:set DISABLE_COLLECTSTATIC=1 --app [your-app-name]```   
+Replacing ```[your-app-name]``` with your own. You may be prompted to login to Heroku; follow the steps in your terminal to do so.
+
+6. In *techzone/settings.py*, on line 21 (ALLOWED_HOSTS), replace ```techzone-ms4.herokuapp.com``` with the address of your Heroku project, in the same format. (You can find this on the *Settings* page of your Heroku app; remove the "http://" and "/" at the start and end of the address.)
+
+7. Add, commit and push your changes by running the following sequence of commands in your Gitpod terminal: 
+```git add .``` 
+```git commit -m "heroku deployment"``` 
+```git push heroku master```  
+
+8. Go to the _Settings_ page of your project in Heroku and click on "Config Vars". Click on "Reveal Config Vars".   
+From your *.env* file, copy each of the *environment variables* into this interface. (For example, *SECRET_KEY* in the KEY field, and the code after the equals sign in the VALUE field on this interface.) 
+We have to do this because since our *.env* file has not been made public or pushed to GitHub, and Heroku needs these values for our site to function.
+
+9. In the *Deploy* tab of your Heroku app's page, under *Deployment Methods*, click GitHub. Scroll down, and click *Connect to GitHub*. You will be prompted to authorize Heroku. Once authorized, search for the name of your repo under the *Connect to GitHub* section. Click "*Connect*" beside the repository name. Scroll down, and click "*Enable Automatic Deploys*".
+
+10. Go to the _Deploy_ tab in Heroku, scroll down and click "Enable Automatic Deploys". Click "Deploy Branch".
+
+Once the app is deployed, click "Open App" in Heroku on the project page. The project should be successfully deployed and will update automatically whenever a new GitHub push is made.
+
+
+
