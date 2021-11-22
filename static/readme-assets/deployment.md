@@ -127,7 +127,7 @@ Then, run each of these commands in order:
 ``` python3 manage.py dumpdata --exclude auth.permission --exclude contenttypes > db.json ```   
 ``` python3 manage.py loaddata db.json ```  
 
-Finally, run ```python3 manage.py createsuperuser``` and follow the steps to create a new admin user.
+Finally, run ```python3 manage.py createsuperuser``` and follow the steps to create a new admin user. Check your e-mail inbox, and follow the instructions in the confirmation e-mail.
 
 5. In your Gitpod terminal, run the following command   
 ```heroku config:set DISABLE_COLLECTSTATIC=1 --app [your-app-name]```   
@@ -213,4 +213,10 @@ Next to the ```DISABLE_COLLECTSTATIC``` variable, click the *X* to delete it, as
 
 4. Heroku should detect this *push*, and will now collect static files.
 
-5. Return to your *S3* bucket, and on the *Overview* tab, created a new folder called "*media*". 
+5. Return to your *S3* bucket, and on the *Overview* tab, create a new folder called "*media*". This is where new *media* files will be contained.
+
+Congratulations - your *Heroku*-deployed *Django* project is now live, and connected with the *Amazon Web Services S3* file service.
+
+<hr>
+
+[⇧ Back to Top](#table-of-contents)
