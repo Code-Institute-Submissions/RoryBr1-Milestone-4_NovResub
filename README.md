@@ -66,7 +66,6 @@ This project was built as part of the [CodeInstitute](https://codeinstitute.net/
 6. As an _end-user_, I want to be able to add multiple items to my *cart* and *checkout* for them with one payment.
 7. As an _end-user_, I want to send an e-mail to the site owner about an order (or potential order).
 8. As an _end-user_, I want to leave comments on the site's *Blog* posts to share my thoughts on the post.
-9. As an _end-user_, I want to receive a confirmation e-mail when I place an order, so I know that my order has been received.
    
 ### How does the website function to meet the needs of the user, as described in the user stories?
 1. The _Add New product_, _Edit_ and _Delete_ functions enable the administrator to fulfill these Create, Update and Delete functions.
@@ -78,7 +77,6 @@ This project was built as part of the [CodeInstitute](https://codeinstitute.net/
 6. On individual product pages, users can click "*Add to Cart*" to add the product shown to their cart. A prompt is then shown, displaying the items in the user's cart, and giving them an option to *Checkout*. The Checkout process is easy and intuitive, and can be completed by users whether they are logged in or not.
 7. The *Contact Us* link on the footer of each page directs the user to a functional Contact form which sends an e-mail to the site administrator's inbox.
 8. Each *Blog* post page has a comment section at the bottom, which displays existing user comments and allows logged-in users to post new comments.
-9. When a user completes the *Checkout* process, an order is created in the database and a confirmation e-mail is sent to the user.
 
 [⇧ Back to Top](#table-of-contents)
 

@@ -83,7 +83,7 @@ On the right hand corner of this page, click the webhook code to copy it to your
 Return to your *.env* file, and replace ```your-stripe-wh-secret``` with this new webhook code. 
 
 At this point, the basic functionality of the site as a guest user is complete. The guest user can browse the locally deployed version of the site, add products to their cart, and complete the checkout process.
-    **Note**: As your Stripe account is set by default to run in *Test mode*, you can use the following *test mode* credit card details to complete the checkout process.   
+    **Note**: As your Stripe account is set by default to run in *Test mode*, you can use the following *test mode* credit card details to complete the checkout process   
 
      Card Number: 4242 4242 4242 4242  
      Expiry Date: 0424     
